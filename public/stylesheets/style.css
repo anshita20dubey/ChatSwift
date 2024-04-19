@@ -1,0 +1,265 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: gilroy;
+}
+html,body{
+  width: 100%;
+  height: 100%;
+}
+.green-background {
+  background: #009688;
+  height: 130px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: -100;
+}
+.wrap {
+  display: flex;
+  height: 100vh;
+  min-width: 600px;
+  max-width: 1200px;
+
+  margin: auto;
+  box-shadow: 0 2px 2px #aaaaaa;
+}
+
+#main{
+  height: 95%;
+  display: flex;
+  width: 100%;
+  margin-top: 2%;
+  position: relative;
+}
+#left
+{
+  width: 30%;
+  background-color: white;
+  border-right: 2px solidwhite;
+  
+}
+.top{
+  width: 100%;
+  padding-bottom: 5px;
+  
+}
+.user{
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  gap:16px;
+  cursor: pointer;
+  padding: 6px 15px ;
+  background-color:#EEEEEE;
+  
+}
+.user img{
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+}
+.left .bottom .chats{
+  padding-top: 32px;
+
+}
+#right
+{
+  background-image: url(https://imgs.search.brave.com/edF_Z5dlyergpeUh8S_zHf3k6Y1Qz3wXxyc76Zmlzt4/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9jZG4u/d2FsbHBhcGVyc2Fm/YXJpLmNvbS80LzEx/L1dvZnlWSi5wbmc);
+  width: 70%;
+  height: 100%;
+  background-color:white;
+  display: none;
+}
+#right .top{
+  width: 100%;
+  height: 7vh;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  
+}
+#right .top  i {
+  color:#aaaaaa;
+  width: 60px;
+  text-align: center;
+  background-color: #EEEEEE;
+  height: 6vh;
+  padding: 12px;
+}
+#close-contact-information {
+  display: none;
+}
+#right .middle{
+  height: calc(100% - 14vh);
+  padding: 7px;
+  overflow-y: auto;
+  
+}
+#right .bottom{
+  width: 100%;
+    height: 50px;
+    background: #f1f1f1;
+    display: flex;
+}
+#right .bottom i{
+  /* width: 20px; */
+   font-size: 30px;
+    margin: auto;
+    padding: 5px;
+    /* margin-left: 5%; */
+}
+#right .bottom input{
+  height: 100%;
+  width: 80%;
+  /* border: 1px solid black; */
+  outline: none;
+  padding: 5px 5px;
+  font-size: 17px;
+}
+
+#right .bottom button{
+  /* width: 20%;
+  height: 100%;
+  font-size: 20px;
+  font-weight: 600; */    
+  padding: 0 20px;
+    margin: auto;
+    background: #00a884;
+    border: none;
+    color: white;
+    height: 45px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #eeeeee;
+}
+
+.message {
+  width: 100%;
+  height: 45px;
+  background: #ffffff;
+  margin: auto;
+  border: 1px solid #eeeeee;
+  border-radius: 5px;
+  display: flex;
+}
+
+.input-message {
+  width: 100%;
+  margin: 0px 10px;
+  border: none;
+}
+
+.input-message:focus {
+  outline: none;
+}
+#right .middle .msg{
+  padding: 7px;
+  border-radius: 5px;
+  background-color: white;
+  width: fit-content;
+  max-width: 150px;
+  margin-top: 2px;
+}
+
+.incoming {
+  border-bottom-left-radius: 0 !important;
+
+  
+}
+.Outgoing {
+  border-bottom-right-radius: 0 !important;
+  margin-left: auto;
+}
+.msg {
+  background-color: #D9FDD3;
+
+}
+.loggedinuserDiv{
+  display: flex;
+  justify-content: space-between;
+  padding: 0 16px;
+  background-color:#EEEEEE;
+  
+  
+}
+.loggedinuserDiv button{
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  font-size: 25px;
+}
+#left #h1left{
+  position: absolute;
+  color:#25D366;
+  left: 65%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+}
+.timestamp {
+  font-size: 0.6em;
+  color: #666;
+  margin-left: 12px;
+  
+}
+
+#main2{
+  height: 95%;
+  display: flex;
+  width: 100%;
+  margin-top: 2%;
+  position: relative;
+  flex-direction: column;
+}
+
+.upper{
+  width: 100%;
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #008069;
+}
+
+.upper i{
+  font-size: 25px;
+}
+
+.lower{
+  width: 100%;
+  height: calc(100% - 80px);
+}
+
+.lower button{
+  font-weight: 600;
+}
+
+.line{
+  width: 90%;
+  height: 0.5px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  margin-left: 5%;
+  background-color: #666;
+}
+
+#lower2{
+  margin-top: 60px;
+}
+
+#lower2 h3{
+  margin-left: 42.5%;
+  
+}
+
+#lower2 h1{
+  margin-left: 45%;
+  padding-bottom: 20px;
+}
+
+#lower2 input{
+  margin-left: 37.5%;
+}

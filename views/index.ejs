@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>ChatSwift</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+  <link rel="shortcut icon"
+    href="https://i2.wp.com/www.titanui.com/wp-content/uploads/2014/02/03/iOS-Chat-App-Icon-PSD.png?fit=600%2C600&ssl=1"
+    type="image/x-icon">
+</head>
+<script src="https://use.fontawesome.com/1c6f725ec5.js"></script>
+
+<body>
+  <div class="green-background"></div>
+  <div class="wrap">
+    <div id="main">
+      <div id="left">
+        <h1 id="h1left">Click Chats to open</h1>
+        <div class="top">
+          <div class="loggedinuserDiv">
+            <div class="user">
+              <img src="/images/uploads/<%= loggedInUser.profileImage%>" alt="">
+              <h3 style="font-weight: 400; font-size: 15px;">
+                <%= loggedInUser.username %>
+              </h3>
+            </div>
+            <div style="display: flex; gap: 16px;"></div>
+            <button style="color: #aaaaaa; cursor: pointer;" onclick="joinGroup()"><i
+                class="ri-user-add-fill"></i></button>
+            <button style="color: #aaaaaa; cursor: pointer;" onclick="createNewGroup()"> <i
+                class="ri-add-line"></i></button>
+            <a href="/edit" style="text-decoration: none; padding-top: 7px;"><i
+                style="font-size: 25px; margin-top: 2%; cursor: pointer; color: #aaaaaa" class="ri-more-2-fill"></i></a>
+
+          </div>
+        </div>
+        <div class="bottom">
+          <div class="chats">
+
+          </div>
+        </div>
+      </div>
+      <div id="right">
+        <div class="top">
+          <div id="currentChatUser" class="user" style="height: 6vh; ">
+            <img src="profileImage" alt="">
+            <h3 style="font-size: 15px; font-weight: 400;">username</h3>
+          </div>
+          <i class="fa fa-search fa-lg" aria-hidden="true"></i>
+          <i class="fa fa-paperclip fa-lg" aria-hidden="true"></i>
+          <i class="fa fa-bars fa-lg" aria-hidden="true" id="show-contact-information"></i>
+          <i class="fa fa-times fa-lg" aria-hidden="true" id="close-contact-information"></i>
+
+
+
+        </div>
+        <div class="middle">
+          <div class="conversationArea">
+
+          </div>
+        </div>
+        <div class="bottom">
+          <i class="fa fa-smile-o fa-lg" aria-hidden="true"></i>
+          <div class="message">
+            <input type="text" class="input-message" placeholder="Enter Message...">
+          </div>
+          <button onclick="sendMessage()">send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io();
+
+
+
+    socket.emit('join-server', {
+      username: `<%= loggedInUser.username %>`,
+      profileImage: `<%= loggedInUser.profileImage %>`,
+    })
+
+    socket.on('new-user-join', userDetails => {
+      appendChat(userDetails.profileImage, userDetails.username);
+    })
+  </script>
+  <script>
+    let currentChatUser = null;
+    const sender = `<%= loggedInUser.username%>`
+
+    document.querySelector(".chats").addEventListener("click", function () {
+      document.querySelector("#h1left").innerHTML = "";
+    })
+
+    function putIncomingMessage(message, timestamp) {
+      const template = `<div class="msg incoming" style="display:flex; justify-content:flex-end; align-items:center;font-size:13px;">
+          ${message}
+          <div class="timestamp">${timestamp}</div>
+        </div>`;
+      document.querySelector(".conversationArea").innerHTML += template;
+    }
+
+    function OutgoingMessage(message, timestamp) {
+      const template = `<div class="msg Outgoing" style="background-color: #D9FDD3; display:flex; justify-content:flex-end; align-items:center; font-size:13px;">
+         ${message}
+         <div class="timestamp">${timestamp}</div>
+        </div>`;
+      document.querySelector(".conversationArea").innerHTML += template;
+    }
+    function sendMessage() {
+      const message = document.querySelector('#right .bottom input').value;
+      const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      OutgoingMessage(message, timestamp);
+      document.querySelector('#right .bottom input').value = "";
+
+      socket.emit('private-message', {
+        message,
+        receiver: currentChatUser,
+        sender: `<%= loggedInUser.username %>`,
+        timestamp: timestamp
+      });
+
+
+    }
+
+    function appendChat(profileImage, username) {
+      if (document.querySelector(`#${username}`)) {
+        return;
+      }
+      const template = `<div onclick="createNewConversation('${profileImage}','${username}')" class="chat" id="${username}">
+          <div class="user" style=" background-color:white; border: 0.2px solid #ccc">
+            <img src="/images/uploads/${profileImage}" alt="">
+            <h3 style="font-weight:400; font-size:15px">${username}</h3>
+          </div>
+        </div>`
+
+      document.querySelector(".chats").innerHTML += template;
+    }
+
+    function createNewConversation(profileImage, username) {
+      currentChatUser = username
+      document.querySelector('#main > #right').style.display = "initial";
+      document.querySelector("#currentChatUser img").setAttribute("src", profileImage);
+      document.querySelector("#currentChatUser h3").textContent = username;
+
+      socket.emit('fetch-conversation', {
+        receiver: username,
+        sender: sender,
+      })
+
+
+
+    }
+
+    socket.on('send-conversation', allMessages => {
+      document.querySelector(".conversationArea").innerHTML = "";
+      allMessages.forEach(message => {
+        if (message.sender == sender) {     //msg logged in user kr rha h
+          OutgoingMessage(message.msg);
+        } else {
+          putIncomingMessage(message.msg); // Pass the message content
+        }
+      });
+    });
+    function createNewGroup() {
+
+
+      const groupName = prompt("enter group name")
+      socket.emit('create-new-group', {
+        sender,
+        groupName
+
+      })
+      if (!groupName) {
+        return
+      }
+    }
+
+    ///receive kiya nya group usko ui pe dikhane ke liye jo chaiye wo sb diya , bo appendchat() function m tha to call kr diya
+    socket.on('group-created', newGroup => {
+      appendChat(newGroup.profileImage, newGroup.name)
+    })
+
+    socket.on('group-joined', groupDetails => {
+      appendChat(groupDetails.profileImage, groupDetails.name)
+    })
+
+
+    function joinGroup() {
+      const groupName = prompt("enter group nAME TO join: ")
+      socket.emit('join-group', {
+        groupName,
+        sender
+      })
+    }
+  </script>
+</body>
+
+</html>

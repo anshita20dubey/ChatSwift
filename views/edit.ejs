@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.6.0/fonts/remixicon.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <form id="fileform" hidden action="/upload/profilepic" method="post" enctype="multipart/form-data">
+        <input type="file" id="file" name="image">
+    </form>
+    <div class="green-background"></div>
+    <div class="wrap">
+        <div id="main2" style="background-color: whitesmoke;">
+            <div class="upper">
+                <a href="/" class="text-base text-white"><i class="ri-home-line"></i> home</a>
+                <h2 class="leading-none text-xl font-semibold text-white ">Edit Profile</h2>
+                <i class="ri-user-line text-white"></i>
+            </div>
+            <div class="lower">
+                <div class="flex flex-col items-center gap-2 mt-20">
+                    <div class="image w-48 h-48 bg-sky-100 rounded-full overflow-hidden">
+                        <img src="/images/uploads/<%= user.profileImage %>" alt="">
+                    </div>
+                    <button onclick="onClick()" style="color: #008069;" class="font-medium capitalize">edit
+                        picture</button>
+                </div>
+                <div id="lower2" class="gap-5 px-4 mt-10">
+                    <h3 class="text-lg leading-none">Edit Account Details</h3>
+                    <div class="line"></div>
+                    <form class="w-full" action="/update" method="post">
+                        <h1 style="color:#008069;" class="font-semibold">Your username</h1>
+                        <input class="px-3 mt-2 py-2 border-2 rounded-md block w-1/4" style="background-color: #e1dfdf;"
+                            type="text" placeholder="username" value="<%= user.username %>" name="username">
+                        <input class="px-3 py-3 rounded-md mt-2 w-1/4" style="background-color: #008069; color: #fff;"
+                            type="submit" value="Update Details">
+                    </form>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+    <script>
+        function onClick() {
+            document.querySelector("#file").click();
+        }
+
+        document.querySelector("#file").addEventListener("change", function () {
+            document.querySelector("#fileform").submit();
+        });
+
+    </script>
+</body>
+
+</html>
