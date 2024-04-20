@@ -103,9 +103,16 @@
 
     function OutgoingMessage(message, timestamp) {
       const template = `<div class="msg Outgoing" style="background-color: #D9FDD3; display:flex; justify-content:flex-end; align-items:center; font-size:13px;">
-         ${message}
-         <div class="timestamp">${timestamp}</div>
-        </div>`;
+    <div style="margin-right: 8px;"> <!-- Add margin-right to create space -->
+      <div style="position:relative; width:20px; height:20px; border-radius:50%; overflow:hidden;" class="profile">
+        <img style="object-fit:cover; object-position:center; width:100%; height:100%;" src="/images/uploads/<%= loggedInUser.profileImage %>" alt="Profile Image">
+      </div>
+    </div>
+    <div class="message-content">
+      ${message}
+      <div class="timestamp">${timestamp}</div>
+    </div>
+  </div>`;
       document.querySelector(".conversationArea").innerHTML += template;
     }
     function sendMessage() {
@@ -141,7 +148,7 @@
     function createNewConversation(profileImage, username) {
       currentChatUser = username
       document.querySelector('#main > #right').style.display = "initial";
-      document.querySelector("#currentChatUser img").setAttribute("src", profileImage);
+      document.querySelector("#currentChatUser img").setAttribute("src", "/images/uploads/" + profileImage);
       document.querySelector("#currentChatUser h3").textContent = username;
 
       socket.emit('fetch-conversation', {
@@ -153,16 +160,37 @@
 
     }
 
+    function convertToHHMM(isoString) {
+      // Create a Date object from the ISO 8601 formatted string
+      const date = new Date(isoString);
+
+      // Get hours and minutes
+      let hours = date.getHours();
+      let minutes = date.getMinutes();
+
+      // Convert hours and minutes to strings and pad with zero if necessary
+      hours = hours.toString().padStart(2, '0');
+      minutes = minutes.toString().padStart(2, '0');
+
+      // Return the formatted time string
+      return `${hours}:${minutes}`;
+    }
+
     socket.on('send-conversation', allMessages => {
       document.querySelector(".conversationArea").innerHTML = "";
       allMessages.forEach(message => {
+
+        console.log(message)
+
         if (message.sender == sender) {     //msg logged in user kr rha h
-          OutgoingMessage(message.msg);
+          OutgoingMessage(message.msg, convertToHHMM(message.createdAt));
         } else {
-          putIncomingMessage(message.msg); // Pass the message content
+          putIncomingMessage(message.msg, convertToHHMM(message.createdAt)); // Pass the message content
         }
       });
     });
+
+
     function createNewGroup() {
 
 

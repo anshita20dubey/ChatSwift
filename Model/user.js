@@ -5,7 +5,7 @@ const userSchema = mongoose.Schema({
     username: String,
     profileImage: {
         type: String,
-        default: 'defaultuser.jpg',
+        default: 'defaultuser.png',
     },
     socketId: String,
 });
