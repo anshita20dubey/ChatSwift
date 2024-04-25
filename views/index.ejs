@@ -10,7 +10,7 @@
 </head>
 <script src="https://use.fontawesome.com/1c6f725ec5.js"></script>
 <body>
-  <div class="green-background"></div>
+  <div id="greenindex" class="green-background"></div>
   <div class="wrap">
     <div id="main">
       <div id="left">
@@ -83,7 +83,7 @@
 
     document.querySelector(".chats").addEventListener("click", function () {
       document.querySelector("#h1left").innerHTML = "";
-    })
+    });
 
     function putIncomingMessage(message, timestamp, profileImage) {
       const template = `<div class="msg incoming" style="display:flex; justify-content:flex-start; align-items:center;font-size:13px;">

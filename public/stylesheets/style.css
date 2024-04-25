@@ -33,7 +33,7 @@ html,body{
   margin-top: 2%;
   position: relative;
 }
-#left
+#main #left
 {
   width: 30%;
   background-color: white;
@@ -262,4 +262,82 @@ html,body{
 
 #lower2 input{
   margin-left: 37.5%;
+}
+
+@media (max-width:600px){
+ 
+  .green-background {
+    display: none;
+  }
+
+  #greenindex{
+    height: 130px;
+  }
+
+  .wrap {
+    height: 150vh;
+  }
+
+  #main2{
+    background-color: #fff;
+  }
+
+  .upper{
+    height: 130px;
+    margin-top: -2%;    
+  }
+
+  .upper i{
+    font-size: 45px;
+  }
+
+  .upper h2{
+    font-size: 30px;
+    margin-left: -5%;
+    
+  }
+  .upper a{
+    font-size: 25px;
+  }
+  
+  .lower .image{
+    width: 400px;
+    height: 400px;
+  }
+
+  .lower button{
+    font-weight: 600;
+    font-size: 35px;
+  }
+
+  #lower2{
+    margin-top: 100px;
+  }
+
+  #lower2 h3{
+    margin-left: 25%;
+    font-size: 33px;
+    
+  }
+  
+  #lower2 h1{
+    margin-left: 33%;
+    font-size: 30px;
+    padding-bottom: 20px;
+  }
+  
+  #lower2 input{
+    margin-left: 27%;
+    padding: 22px;
+    width: 50%;
+    font-size: 23px;
+  }
+
+ 
+
+   #main #left{
+    width: 100%;
+    margin-bottom: 20px;
+    
+  }
 }
